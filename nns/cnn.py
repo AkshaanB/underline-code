@@ -1,5 +1,5 @@
 import torch
-from activation_funs.relu import relu_af
+import torch.nn.functional as F
 
 
 class CNNLayer():
@@ -9,8 +9,14 @@ class CNNLayer():
         self.padding = padding
 
     def forward(self, input_mtx, kernel):
-        
-        output = relu_af(conv_output)
+
+        if self.padding:
+            padded_input_mtx = F.pad(input_mtx, self.padding, mode='constant', value=0)
+            conv_output = 
+        else:
+            conv_output = 
+
+        output = torch.relu(conv_output)
 
         return output
 
@@ -18,7 +24,15 @@ class CNNLayer():
 
 
 if __name__ == "__main__":
-    cnnlayer = CNNLayer(2)
-    output = cnnlayer(input_mtx, kernel)
+    cnnlayer = CNNLayer(1, padding=(1, 1, 1, 1))
+    input_mtx = torch.tensor([[-45, 12, 5, 17],
+                [22, 10, -35, 6],
+                [88, -26, 51, 19],
+                [9, 77, 42, -3]], dtype=torch.int)
+    kernel = torch.tensor(
+                        [[0, -1, 0],
+                        [-1, 5, -1],
+                        [0, -1, 0]], dtype=torch.int)
+    output = cnnlayer.forward(input_mtx, kernel)
 
     print(output)
